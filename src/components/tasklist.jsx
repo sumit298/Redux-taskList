@@ -25,14 +25,31 @@ const TaskListInput = () => {
     dispatch(deleteTask(id));
   };
 
-  const handleDragEnd = (result)=>{
-    if(!result.destination) return;
+  // const [state, setState] = React.useState(taskList);
+  console.log(taskList);
+  // console.log(state);
+
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+  
+    return result;
+  };
+  const handleDragEnd = (result) => {
     console.log(result);
-    const items = Array.from(inputData);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setInput(items)
-  }
+    if (!result.destination) return;
+    if(result.destination.droppableId === result.source.droppableId && result.destination.index === result.source.index) return
+   const items = reorder(
+     taskList, result.source.index, result.destination.index
+   )
+    // Todo find: what i am doing wrong?
+    // setState(items);
+
+    // Setting new state to wrong item
+    setInput(items);
+  };
+  
 
   return (
     <div>
@@ -43,6 +60,7 @@ const TaskListInput = () => {
             <input
               type="text"
               name="title"
+              required
               value={inputData.title}
               className="title"
               placeholder="Enter task title"
@@ -54,6 +72,7 @@ const TaskListInput = () => {
             <input
               type="text"
               className="content"
+              required
               name="content"
               value={inputData.content}
               placeholder="Enter task content"
@@ -72,6 +91,7 @@ const TaskListInput = () => {
                     key={task.id}
                     draggableId={task.id.toString()}
                     index={index}
+                    // ref={provided.innerRef}
                   >
                     {(provided) => (
                       <div
