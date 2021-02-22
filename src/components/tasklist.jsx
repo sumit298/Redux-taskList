@@ -84,7 +84,7 @@ const TaskListInput = () => {
         <h2>Tasks Available: {taskList.length}</h2>
         <Droppable droppableId="tasks" direction="horizontal">
           {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
+            <div className="flex" {...provided.droppableProps} ref={provided.innerRef}>
               {taskList.map((task, index) => {
                 return (
                   <Draggable

@@ -15,3 +15,10 @@ export const deleteTask = (id) => {
     payload: { id, checked: true },
   };
 };
+
+export const changeDrag = () => {
+  return {
+    type: "CHANGE_DRAG",
+    payload: null,
+  };
+};
